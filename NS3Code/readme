@@ -1,1 +1,6 @@
-This folder constains the scripts used to generate the NS-3 simulation used in the paper. Place the C files into the scratch folder to run them.
+This folder constains the scripts used to generate the NS-3 simulation used in the paper. 
+
+1) Place the C files into 
+2) Place the .sh files into the top level directory of your NS-3
+3) call "./waf shell"
+4) .sh scripts can now be run using your bash
