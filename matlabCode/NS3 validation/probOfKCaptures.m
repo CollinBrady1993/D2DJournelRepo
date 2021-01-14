@@ -14,19 +14,17 @@ function[fk] = probOfKCaptures(Nue,Np,theta,Nr,Nt,PtdBm,R,macCol)
 fk = zeros(1,min(Nue-Np,Nr+1));
 
 %% grabbing the colision probabilities and A data
-colProbLookup = readtable('pColData.txt');
 pCol = ones(Nue-1,Np+1);%the rows represent Nue, and the columns Nb
 pCol(1,1) = 0;%this is the case that a PRB is occupied by one undiscovered UE
-for i = 2:size(pCol,1)-1%for NUE
-    for j = 0:Np%the reason Nb ranges from 0:Nu while Na ranges 1:Nu is that if Na = 0 Pdisk(k) = 0 for all k
-        if i > j
-            pCol(i,j+1) = colProbLookup.pCol(colProbLookup.Nue == i & colProbLookup.Np == j & colProbLookup.R == R & colProbLookup.PtdBm == PtdBm);
+if macCol == 0
+    colProbLookup = readtable('pColData.txt');
+    for i = 2:size(pCol,1)-1%for NUE
+        for j = 0:Np%the reason Nb ranges from 0:Nu while Na ranges 1:Nu is that if Na = 0 Pdisk(k) = 0 for all k
+            if i > j
+                pCol(i,j+1) = 1-colProbLookup.pCol(colProbLookup.Nue == i & colProbLookup.Np == j & colProbLookup.R == R & colProbLookup.PtdBm == PtdBm);
+            end
         end
     end
-end
-
-if macCol == 1
-    pCol = ceil(pCol);%makes all multi-occupancy prb collisions, akin to mac collisions
 end
 
 %read in all possible A values

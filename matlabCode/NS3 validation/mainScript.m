@@ -7,15 +7,15 @@
 %these first four are the simulations we want to access and calculate,
 %since this is mac collisions only, for the moment, gamme/alpha are not
 %inculded.
-Nue = 10;%number of UE
+Nue = 12;%number of UE
 theta = 1;%transmission probability
-Nr = 12;%number of PRB
-Nt = 4;%number of timeslots
+Nr = 24;%number of PRB
+Nt = 6;%number of timeslots
 PtdBm = -10;%transmit power in dbm, this is awkward because for reasons the file titles are reversed sign, so if power is -10 dBm then the file lists it as 10 dBm
-R = 5000;%play field radius
+R = 1000;%play field radius
 fc = 23280;%center frequency
 
-macCol = 0;%indicates mac/phy collisions
+macCol = 1;%indicates mac/phy collisions
 
 %settings on what to do, we may not need to read in data more than once
 readData = 0;%flag to run the read data, dont need to read in data if its already there
