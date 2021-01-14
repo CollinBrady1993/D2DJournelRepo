@@ -1,23 +1,14 @@
 
-%constant
+%mosbah
 
 %% MAC Parameters
-Nr = 24;%number of PRB
-Nt = 6;%number of subframes
-NUE = 12;%number of users
-Theta = 1*ones(1,max(NUE))';
+Nr = 20;%number of PRB
+Nt = 10;%number of subframes
+NUE = 120;%number of users
+Theta = .25;
 
 %% PHY Parameters
-MACCol = 1;%flag for mac/phy collisions
-PtdBm = -10;%dBm
-Pt = (10^(PtdBm/10))/(2*180000*1000);%W/Hz, power spectral density
-fc = 788000000;%hz, this is band 14
-lambda = 299792458/fc;%wavelength
-noiseFigure = 1;
-thermalNoise = 3.98107e-21;%W/Hz, power spectral density
-alpha = 2;%coeficient of attenuation
-systemLoss = 1;
-R = 1000;
+R = 2500^2;
 
 trials = 1000000;
 
@@ -31,8 +22,9 @@ for i = 1:size(params,1)
         datestr(now)
     end
     Nue = params(i,1);
-    theta = params(i,2:end);
+    theta = params(i,2:end)*ones(Nue,1);
     DataP = cell(ceil(trials/Nue),1);
+    
     %DataDiscList = cell(ceil(trials/Nue),1);
     NDCTData = cell(ceil(trials/Nue),1);
     
@@ -40,6 +32,7 @@ for i = 1:size(params,1)
     
     for j = 1:ceil(trials/Nue)
         periodData = zeros(Nue,10000);%this is oversized, excess 0's will be erased later.
+        thetaData = zeros(Nue,10000);%this is oversized, excess 0's will be erased later.
         %DiscListData = cell(1,10000);
         
         
@@ -73,24 +66,25 @@ for i = 1:size(params,1)
                 end
             end
             
-            if MACCol == 1
-                discoveryList = discoveryMAC(PRB,discoveryList,Nr,Nt);
-            else
-                discoveryList = discoveryPHY(PRB,discoveryList,Nr,Nt,d,Pt,thermalNoise,noiseFigure,lambda,alpha,systemLoss);
-            end
-            
-            %discoveryList = or(discoveryList,discoveryListNew);
+            discoveryList = discoveryMAC(PRB,discoveryList,Nr,Nt);
             
             periodData(:,period) = sum(discoveryList,2)-1;%doesnt count itself
-            %DiscListData{period} = discoveryListNew;
+            thetaData(:,period) = theta;
+            for k = 1:Nue
+                
+                theta(k) = mosbahTheta(periodData(k,period),Nr,Nt);
+                
+            end
+            
             period = period + 1;
             
             
         end
         
         periodData(:,period:end) = [];
+        thetaData(:,period:end) = [];
         %DiscListData(period:end) = [];
-        DataP{j,:} = periodData;
+        DataP{j,:} = {periodData,thetaData};
         %DataDiscList{j,:} = DiscListData;
         
         temp = zeros(size(periodData,1),1);
@@ -101,8 +95,14 @@ for i = 1:size(params,1)
         
         
     end
+    
+    
     data{i,1} = params(i,:);
-    %data{i,2} = DataP;
+    %depending on how many trials/parameters you test
+    %over I found that you sometimes run out of memory, causing the sim to
+    %stop prematurely, a simple solution is to not record statistics of
+    %certain quantities, in this case only recording NDCT.
+    data{i,2} = DataP;
     %data{i,3} = DataDiscList;
     data{i,4} = NDCTData;
 end
