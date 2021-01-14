@@ -1,7 +1,7 @@
 Nue = 20;%number of UE
 theta = 0.25:.01:1;%transmission probability
-Nr = 10;%number of PRB
-Nt = 10;%number of timeslots
+%Nr = 10;%number of PRB
+%Nt = 10;%number of timeslots
 Np = 0;
 PtdBm = -10;%transmit power in dbm
 R = 2500;%play field radius

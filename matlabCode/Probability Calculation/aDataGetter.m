@@ -1,8 +1,8 @@
 
 Nr = 48;
-for Nu = 20
-    for Np = 4%0:Nu
-        for r = 6%1:min(Nu,Nr)
+for Nu = 1:24
+    for Np = 1:Nu
+        for r = 1:min(Nu,Nr)
             Nu
             Np
             r

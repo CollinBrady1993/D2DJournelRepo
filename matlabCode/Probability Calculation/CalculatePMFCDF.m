@@ -1,10 +1,10 @@
 %Calculates both the PMF and CDF of the parameters listed below
-Nue = NUE(k);%number of UE
+Nue = 40;%NUE(k);%number of UE
 theta = 1;%transmission probability
-Nr = 10;%number of PRB
-Nt = 5;%number of timeslots
+Nr = 24;%number of PRB
+Nt = 6;%number of timeslots
 PtdBm = -10;%transmit power in dbm
-R = 2500;%play field radius
+R = 1000;%play field radius
 macCol = 1;
 
 PMFCalc = zeros(Nue,min(Nue,Nr+1));

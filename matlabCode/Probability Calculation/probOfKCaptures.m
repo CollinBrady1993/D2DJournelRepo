@@ -14,7 +14,7 @@ function[fk] = probOfKCaptures(Nue,Np,theta,Nr,Nt,PtdBm,R,macCol)
 fk = zeros(1,min(Nue-Np,Nr+1));
 
 %% grabbing the colision probabilities and A data
-colProbLookup = readtable('pColData.txt');
+colProbLookup = readtable('pColData2.txt');
 pCol = ones(Nue-1,Np+1);%the rows represent Nue, and the columns Nb
 pCol(1,1) = 0;%this is the case that a PRB is occupied by one undiscovered UE
 for i = 2:size(pCol,1)-1%for NUE
