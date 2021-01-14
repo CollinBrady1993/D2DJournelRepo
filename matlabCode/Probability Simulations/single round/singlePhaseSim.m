@@ -2,12 +2,12 @@
 %% MAC Parameters
 NR = 10;%number of PRB
 NT = 10;%number of subframes
-NUE = 4;%number of users
-NP = 0;%number of previously discovered UE
+NUE = 15;%number of users
+NP = [0];%number of previously discovered UE
 Theta = 1;%ones(1,NUE)';%transmision probability
 
 %% PHY Parameters
-MACCol = 0;%flag for mac/phy collisions
+MACCol = 1;%flag for mac/phy collisions
 PtdBm = -10;%dBm
 Pt = (10^(PtdBm/10))/(2*180000*1000);%W/Hz, power spectral density
 fc = 788000000;%hz, this is band 14
@@ -16,9 +16,9 @@ noiseFigure = 1;
 thermalNoise = 3.98107e-21;%W/Hz, power spectral density
 alpha = 2;%coeficient of attenuation
 systemLoss = 1;
-R = 2500;
+R = 1000;
 
-trials = 10000;
+trials = 1000000;
 
 params = parameterVariableMaker({NUE,NP,NR,NT,Theta});
 a  = 0;
